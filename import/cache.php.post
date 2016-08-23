@@ -1,0 +1,34 @@
+<?php
+	class cache {
+		private $cache = array();
+		
+		public function __call($type, $args) {
+			if(!isset($cache[ $type ])) {
+				$cache[ $type ] = array();
+			}
+			
+			print "<pre>". $type .": ". print_r($args, true) ."</pre>\n";
+			
+			if(!isset($cache[ $type ][ $args[0] ])) {
+				if(!method_exists($this, "get_". $type)) {
+					return false;
+				}
+				
+				print "(non-cached): ";
+				
+				$cache[ $type ][ $args[0] ] = $this->{"get_". $type}($args[0]);
+			}
+			
+			return $cache[ $type ][ $args[0] ];
+		}
+		
+		
+		// get/set by type
+		static function get_meta($key) {
+			return "meta_". $key;
+		}
+		
+		static function get_connection($key) {
+			return "connection_". $key;
+		}
+	}
