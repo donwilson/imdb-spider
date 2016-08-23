@@ -1,0 +1,7 @@
+SELECT entity.id FROM `entity` LEFT JOIN `entity_media` ON entity_media.entity_id = entity.id WHERE entity.type = 'person' AND entity.media_id IS NULL GROUP BY entity.id
+	if(COUNT(entity_media.media_id) > 0) {
+		pull http://m.imdb.com/name/nm0853779/
+			if(preg_match("#<meta property=['|\"]og\:image['|\"] content=['|\"](.+?)['|\"]#si", $contents)) {
+				// clean media url, match in database and record to entity.media_id
+			}
+	}
